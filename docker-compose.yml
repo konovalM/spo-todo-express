@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: todo_app
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: todo
+    volumes:
+      - todo_pgdata:/var/lib/postgresql/data
+    # Публикуем только на localhost: приложение ходит по docker-сети,
+    # а проверяющий подключается через ограниченный SSH-туннель на этот порт.
+    ports:
+      - "127.0.0.1:5433:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todo_app -d todo"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://todo_app:${DB_PASSWORD}@db:5432/todo
+      PGSSL: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:3000:3000"
+    restart: unless-stopped
+
+volumes:
+  todo_pgdata:
