@@ -4,7 +4,7 @@
 Node.js + Express с хранением в PostgreSQL и интерфейсом на обычном HTML/JS.
 
 - **Студент:** Коноваленко Максим Павлович (ii4elkaa)
-- **HTTPS-адрес:** https://157-22-140-144.sslip.io:9443/
+- **HTTPS-адрес:** https://94.154.130.35.sslip.io:9443/
 - **СУБД:** PostgreSQL 16 · **Площадка:** собственный VPS (Ubuntu 24.04), Docker + nginx
 - **Node.js:** 22 (контейнер) · локальная разработка — Node ≥ 20
 
